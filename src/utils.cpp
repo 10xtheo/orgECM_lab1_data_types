@@ -9,3 +9,4 @@ unsigned long long bitsToNumber(const char* bits, int size) {
     }
     return result;
 }
+

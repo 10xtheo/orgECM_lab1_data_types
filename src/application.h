@@ -5,6 +5,7 @@ class TApplication {
 
 private:
     int menu();
+    bool extraTask();
 public:
     TApplication();
     int exec();
