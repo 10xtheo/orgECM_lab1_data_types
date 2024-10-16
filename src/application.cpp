@@ -53,10 +53,6 @@ int TApplication::exec() {
                 mask = 1 << order;
             }
 
-            unsigned long long doubleBitsValue = bitsToNumber(bits, 64);
-            memcpy(&doubleNumber, &doubleBitsValue, sizeof(double));
-            cout << "\nConverted: " << doubleNumber << "\n"; // TODO: работает кривовато - надо поправить
-
             bool et = extraTask();
             if (et) {
                 int N;
@@ -68,23 +64,18 @@ int TApplication::exec() {
                     cin >> bitPos;
 
                     if (bitPos < 32 && bitPos >= 0) {
-                        numberArray[0] = numberArray[0] ^ (1 << bitPos);
+                        numberArray[1] = numberArray[1] ^ (1 << bitPos);
                     }
 
                     else if (bitPos < 64 && bitPos >= 0) {
                         bitPos = bitPos % 64;
-                        numberArray[1] = numberArray[1] ^ (1 << bitPos);
+                        numberArray[0] = numberArray[0] ^ (1 << bitPos);
                     }
                     else {
-                        cout << "wrong position \n";
+                        cout << "wrong position\n";
                     }
 
                 }
-
-                // Swap array elements for correct binary representation
-                tempElement = numberArray[1];
-                numberArray[1] = numberArray[0];
-                numberArray[0] = tempElement;
 
                 mask = 1 << order;
                 for (int j = 0; j < 2; j++) { // TODO: мб вынести в отдельную функцию
@@ -100,7 +91,9 @@ int TApplication::exec() {
                 }
 
             }
-
+            unsigned long long doubleBitsValue = bitsToNumber(bits, 64);
+            memcpy(&doubleNumber, &doubleBitsValue, sizeof(double));
+            cout << "\nConverted: " << doubleNumber << "\n"; // TODO: работает кривовато - надо поправить
 
             break;
         }
@@ -125,7 +118,6 @@ int TApplication::exec() {
                     cout << " ";
                 }
             }
-            cout << "\nConverted: " << (char) bitsToNumber(bits, 8);
 
             bool et = extraTask();
             if (et) {
@@ -151,6 +143,7 @@ int TApplication::exec() {
                 }
 
             }
+            cout << "\nConverted: " << (char) bitsToNumber(bits, 8);
 
             break;
         }
@@ -184,7 +177,7 @@ int TApplication::menu() {
 bool TApplication::extraTask() {
     bool ch;
 
-    cout << "Invert N bits " << "\n"
+    cout << "\nInvert N bits " << "\n"
          << "1 - yes" << "\n"
          << "0 - skip" << "\n" << "> ";
 
